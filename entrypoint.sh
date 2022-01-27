@@ -7,7 +7,7 @@ export TERM=xterm-color
 
 debug_print() {
     if [ "$INPUT_VERBOSE" = "true" ]; then
-        IFS=$'\n' read -ra ADDR <<< "$1"
+        IFS=$'\n' readarray -t ADDR <<< "$1"
         for i in "${ADDR[@]}"; do
             echo -e "\u001b[32m $i"
         done

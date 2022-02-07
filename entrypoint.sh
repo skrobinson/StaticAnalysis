@@ -29,12 +29,6 @@ if [ -n "$INPUT_APT_PCKGS" ]; then
     apt-get update && eval apt-get install -y "$INPUT_APT_PCKGS"
 fi
 
-if [ -n "$INPUT_INIT_SCRIPT" ]; then
-    chmod +x "$INPUT_INIT_SCRIPT"
-    # shellcheck source=/dev/null
-    source "$INPUT_INIT_SCRIPT"
-fi
-
 debug_print "Repo = ${INPUT_PR_REPO}  PR_HEAD = ${INPUT_PR_HEAD} event name = ${GITHUB_EVENT_NAME}"
 
 use_extra_directory=false
@@ -52,6 +46,12 @@ if [ "$GITHUB_EVENT_NAME" = "pull_request_target" ] && [ -n "$INPUT_PR_REPO" ]; 
     export GITHUB_SHA=$NEW_GITHUB_SHA
 
     export GITHUB_WORKSPACE=$(pwd)
+fi
+
+if [ -n "$INPUT_INIT_SCRIPT" ]; then
+    chmod +x "$INPUT_INIT_SCRIPT"
+    # shellcheck source=/dev/null
+    source "$INPUT_INIT_SCRIPT"
 fi
 
 mkdir build && cd build || exit
